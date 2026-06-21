@@ -28,7 +28,7 @@ function Register(){
 
             await axios.post(
 
-                "http://localhost:5004/api/auth/register",
+                "https://connectify-backend-kb3b.onrender.com",
 
                 {
                     username,

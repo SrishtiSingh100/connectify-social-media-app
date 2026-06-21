@@ -34,7 +34,7 @@ const token = localStorage.getItem("token");
 
 
 
-const API = "http://localhost:5004";
+const API = "https://connectify-backend-kb3b.onrender.com";
 
 
 
