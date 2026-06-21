@@ -29,21 +29,14 @@ e.preventDefault();
 try{
 
 
-const response = await axios.post(
-
-"https://connectify-backend-kb3b.onrender.com/api/auth/register",
-
-{
-
-username,
-
-email,
-
-password
-
-}
-
-);
+    await axios.post(
+        "https://connectify-backend-kb3b.onrender.com/api/auth/register",
+        {
+          username,
+          email,
+          password
+        }
+      );
 
 
 
