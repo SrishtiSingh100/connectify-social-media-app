@@ -1,70 +1,236 @@
-# Getting Started with Create React App
+# Connectify - Social Media Feed Application 🚀
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Connectify is a full-stack social media feed application where users can create accounts, login, create posts, like posts, and comment on posts.
 
-## Available Scripts
+This project is built using the MERN stack and demonstrates frontend development, backend API creation, database management, authentication, and deployment.
 
-In the project directory, you can run:
+## Project Link - [https://connectify-social-media-app-chi.vercel.app/](https://connectify-social-media-app-chi.vercel.app/)
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features ✨
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- User Registration
+- User Login Authentication
+- JWT based authentication
+- Create new posts
+- View all posts
+- Like posts
+- Add comments on posts
+- Responsive social media style UI
+- Trending section
+- MongoDB database integration
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Tech Stack 🛠️
 
-### `npm run build`
+### Frontend
+- React.js
+- Tailwind CSS
+- Axios
+- React Icons
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Backend
+- Node.js
+- Express.js
+- JWT Authentication
+- Bcrypt Password Encryption
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Database
+- MongoDB Atlas
 
 ### Deployment
+- Frontend: Vercel
+- Backend: Render
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## Project Structure 📂
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+connectify-social-media-app
+├── backend
+│   ├── models
+│   ├── routes
+│   ├── server.js
+│   └── package.json
+│
+└── frontend
+    ├── src
+    ├── pages
+    ├── components
+    └── package.json
+```
+
+---
+
+## Application Flow 🔄
+
+1. User creates an account using the registration page.
+2. User details are stored securely in MongoDB.
+3. User logs in using email and password.
+4. Backend verifies the user and generates a JWT token.
+5. After login, users can access the social media feed.
+6. Users can create posts, like posts, and add comments.
+
+---
+
+## API Endpoints 🌐
+
+### Authentication
+
+**Register User**
+```
+POST /api/auth/register
+```
+
+Request:
+```json
+{
+  "username": "user",
+  "email": "user@gmail.com",
+  "password": "123456"
+}
+```
+
+**Login User**
+```
+POST /api/auth/login
+```
+
+Request:
+```json
+{
+  "email": "user@gmail.com",
+  "password": "123456"
+}
+```
+
+Response:
+```json
+{
+  "token": "JWT_TOKEN"
+}
+```
+
+### Posts
+
+**Get all posts**
+```
+GET /api/posts
+```
+
+**Create post**
+```
+POST /api/posts
+```
+
+**Like post**
+```
+PUT /api/posts/like/:id
+```
+
+### Comments
+
+**Get comments**
+```
+GET /api/comments/:postId
+```
+
+**Add comment**
+```
+POST /api/comments/:postId
+```
+
+---
+
+## Installation and Setup ⚙️
+
+Clone the repository:
+```bash
+git clone https://github.com/SrishtiSingh100/connectify-social-media-app.git
+```
+
+Go inside project:
+```bash
+cd connectify-social-media-app
+```
+
+### Backend Setup
+
+Open backend folder:
+```bash
+cd backend
+```
+
+Install dependencies:
+```bash
+npm install
+```
+
+Create a `.env` file:
+```
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+PORT=5004
+```
+
+Run backend:
+```bash
+npm run dev
+```
+
+Backend runs on:
+```
+http://localhost:5004
+```
+
+### Frontend Setup
+
+Open frontend folder:
+```bash
+cd frontend
+```
+
+Install dependencies:
+```bash
+npm install
+```
+
+Start frontend:
+```bash
+npm start
+```
+
+Frontend runs on:
+```
+http://localhost:3000
+```
+
+---
+
+## Deployment 🚀
+
+- Frontend is deployed using **Vercel**.
+- Backend is deployed using **Render**.
+- **MongoDB Atlas** is used as the cloud database.
+
+---
+
+## Learning Outcome 📚
+
+Through this project, I learned:
+
+- [x] Building REST APIs using Express.js
+- [x] Connecting frontend and backend
+- [x] Managing MongoDB databases
+- [x] Implementing authentication
+- [x] Deploying full-stack applications
+
+---
+
+## Author
+
+**Srishti Singh**
+GitHub: [https://github.com/SrishtiSingh100](https://github.com/SrishtiSingh100)
