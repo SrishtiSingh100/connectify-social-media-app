@@ -13,10 +13,7 @@ const app = express();
 app.use(
     cors({
 
-        origin: [
-            "http://localhost:3000",
-            "https://connectify-social-media-app-lve1.vercel.app"
-        ],
+        origin: true,
 
         methods: [
             "GET",
@@ -25,7 +22,7 @@ app.use(
             "DELETE"
         ],
 
-        credentials: true
+        credentials:true
 
     })
 );
