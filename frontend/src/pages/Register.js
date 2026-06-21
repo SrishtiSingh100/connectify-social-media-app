@@ -5,188 +5,195 @@ import { useNavigate } from "react-router-dom";
 
 function Register(){
 
-    const navigate = useNavigate();
 
+const navigate = useNavigate();
 
-    const [username,setUsername] = useState("");
 
-    const [email,setEmail] = useState("");
+const [username,setUsername]=useState("");
 
-    const [password,setPassword] = useState("");
+const [email,setEmail]=useState("");
 
-    const [error,setError] = useState("");
+const [password,setPassword]=useState("");
 
+const [error,setError]=useState("");
 
 
-    const handleRegister = async(e)=>{
 
-        e.preventDefault();
 
+const handleRegister = async(e)=>{
 
-        try{
 
+e.preventDefault();
 
-            await axios.post(
 
-                "https://connectify-backend-kb3b.onrender.com",
+try{
 
-                {
-                    username,
-                    email,
-                    password
-                }
 
-            );
+const response = await axios.post(
 
+"https://connectify-backend-kb3b.onrender.com/api/auth/register",
 
-            alert("Registration Successful");
+{
 
+username,
 
-            navigate("/login");
+email,
 
+password
 
-        }
-        catch(error){
+}
 
-            console.log(error);
+);
 
 
-            setError(
-                error.response?.data?.message ||
-                "Registration Failed"
-            );
 
-        }
+alert("Registration Successful");
 
 
-    };
+navigate("/login");
 
 
 
-    return(
+}
 
+catch(error){
 
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
+console.log(error.response);
 
-            <div className="bg-white shadow-xl rounded-xl p-8 w-96">
 
+setError(
 
-                <h1 className="text-3xl font-bold text-center mb-6 text-blue-600">
+error.response?.data?.message ||
 
-                    Create Account
+"Registration Failed"
 
-                </h1>
+);
 
 
+}
 
-                {
-                    error &&
 
-                    <p className="text-red-500 text-center mb-4">
+};
 
-                        {error}
 
-                    </p>
 
-                }
 
 
 
+return(
 
-                <form onSubmit={handleRegister}>
+<div className="min-h-screen flex items-center justify-center bg-gray-100">
 
 
-                    <input
+<div className="bg-white p-8 rounded-xl shadow-xl w-96">
 
-                    type="text"
 
-                    placeholder="Username"
+<h1 className="text-3xl font-bold text-center text-blue-600 mb-6">
 
-                    value={username}
+Create Account
 
-                    onChange={(e)=>setUsername(e.target.value)}
+</h1>
 
-                    className="w-full border p-3 rounded-lg mb-4"
 
-                    />
 
+{
+error &&
 
+<p className="text-red-500 text-center mb-4">
 
-                    <input
+{error}
 
-                    type="email"
+</p>
 
-                    placeholder="Email"
+}
 
-                    value={email}
 
-                    onChange={(e)=>setEmail(e.target.value)}
 
-                    className="w-full border p-3 rounded-lg mb-4"
 
-                    />
+<form onSubmit={handleRegister}>
 
 
+<input
 
+type="text"
 
-                    <input
+placeholder="Username"
 
-                    type="password"
+value={username}
 
-                    placeholder="Password"
+onChange={(e)=>setUsername(e.target.value)}
 
-                    value={password}
+className="w-full border p-3 rounded-lg mb-4"
 
-                    onChange={(e)=>setPassword(e.target.value)}
+required
 
-                    className="w-full border p-3 rounded-lg mb-5"
+/>
 
-                    />
 
 
 
 
-                    <button
+<input
 
-                    type="submit"
+type="email"
 
-                    className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
+placeholder="Email"
 
-                    >
+value={email}
 
-                    Register
+onChange={(e)=>setEmail(e.target.value)}
 
-                    </button>
+className="w-full border p-3 rounded-lg mb-4"
 
+required
 
+/>
 
-                </form>
 
 
 
 
-                <button
+<input
 
-                onClick={()=>navigate("/login")}
+type="password"
 
-                className="w-full mt-4 border border-blue-600 text-blue-600 p-2 rounded-lg"
+placeholder="Password"
 
-                >
+value={password}
 
-                Already have account? Login
+onChange={(e)=>setPassword(e.target.value)}
 
-                </button>
+className="w-full border p-3 rounded-lg mb-4"
 
+required
 
+/>
 
-            </div>
 
 
-        </div>
 
 
-    );
+<button
+
+className="w-full bg-blue-600 text-white p-3 rounded-lg"
+
+>
+
+Register
+
+</button>
+
+
+</form>
+
+
+</div>
+
+
+</div>
+
+);
 
 }
 
