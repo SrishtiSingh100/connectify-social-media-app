@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
     FaBell,
@@ -20,6 +20,7 @@ import {
 
 function Feed(){
 
+
 const [posts,setPosts] = useState([]);
 
 const [content,setContent] = useState("");
@@ -33,32 +34,25 @@ const token = localStorage.getItem("token");
 
 
 
+const API = "http://localhost:5004";
+
+
 
 
 // GET POSTS
 
-const getPosts = async()=>{
+const getPosts = useCallback(async()=>{
 
 
 try{
 
 
 const res = await axios.get(
-
-"http://localhost:5004/api/posts"
-
+`${API}/api/posts`
 );
 
 
 setPosts(res.data);
-
-
-
-res.data.forEach((post)=>{
-
-loadComments(post._id);
-
-});
 
 
 
@@ -70,8 +64,7 @@ console.log(err);
 }
 
 
-};
-
+},[]);
 
 
 
@@ -83,8 +76,7 @@ useEffect(()=>{
 getPosts();
 
 
-},[]);
-
+},[getPosts]);
 
 
 
@@ -102,14 +94,13 @@ const createPost = async()=>{
 if(!content.trim()) return;
 
 
-
 try{
 
 
 await axios.post(
 
 
-"http://localhost:5004/api/posts",
+`${API}/api/posts`,
 
 
 {
@@ -136,8 +127,8 @@ token
 
 setContent("");
 
-getPosts();
 
+getPosts();
 
 
 }
@@ -146,7 +137,6 @@ catch(err){
 console.log(err);
 
 }
-
 
 
 };
@@ -171,7 +161,7 @@ try{
 await axios.put(
 
 
-`http://localhost:5004/api/posts/like/${id}`,
+`${API}/api/posts/like/${id}`,
 
 
 {},
@@ -179,13 +169,11 @@ await axios.put(
 
 {
 
-
 headers:{
 
 token
 
 }
-
 
 }
 
@@ -216,7 +204,6 @@ console.log(err);
 
 
 
-
 // LOAD COMMENTS
 
 
@@ -228,9 +215,7 @@ try{
 
 const res = await axios.get(
 
-
-`http://localhost:5004/api/comments/${postId}`
-
+`${API}/api/comments/${postId}`
 
 );
 
@@ -245,7 +230,6 @@ setComments(prev=>({
 [postId]:res.data
 
 
-
 }));
 
 
@@ -254,7 +238,6 @@ setComments(prev=>({
 catch(err){
 
 console.log(err);
-
 
 }
 
@@ -281,36 +264,29 @@ return;
 
 
 
-
 try{
 
 
 await axios.post(
 
 
-`http://localhost:5004/api/comments/${postId}`,
+`${API}/api/comments/${postId}`,
 
 
 {
 
-
 text:commentText[postId]
-
 
 },
 
 
 {
 
-
 headers:{
-
 
 token
 
-
 }
-
 
 }
 
@@ -322,16 +298,13 @@ token
 
 setCommentText({
 
-
 ...commentText,
 
 
 [postId]:""
 
 
-
 });
-
 
 
 
@@ -343,7 +316,6 @@ loadComments(postId);
 catch(err){
 
 console.log(err);
-
 
 }
 
@@ -360,14 +332,10 @@ console.log(err);
 
 return(
 
-
 <div className="min-h-screen bg-gray-100">
 
 
 
-
-
-{/* NAVBAR */}
 
 
 <nav className="bg-white shadow-md px-8 py-4 flex justify-between items-center">
@@ -378,7 +346,6 @@ return(
 Connectify
 
 </h1>
-
 
 
 
@@ -416,9 +383,7 @@ Connectify
 
 
 
-
 {/* PROFILE */}
-
 
 
 <div className="bg-white rounded-xl shadow p-6 h-fit">
@@ -465,26 +430,19 @@ Full Stack Developer
 
 <p className="flex gap-3 items-center">
 
-
 <FaUsers className="text-blue-500"/>
-
 
 Followers: 120
 
-
 </p>
 
 
 
-
 <p className="flex gap-3 items-center">
-
 
 <FaComment className="text-green-500"/>
 
-
 Posts: {posts.length}
-
 
 </p>
 
@@ -493,17 +451,13 @@ Posts: {posts.length}
 
 <p className="flex gap-3 items-center">
 
-
 <FaStar className="text-yellow-500"/>
 
-
 Creator Level
-
 
 </p>
 
 
-
 </div>
 
 
@@ -517,12 +471,7 @@ Creator Level
 
 
 
-
-
-
-
-{/* MAIN FEED */}
-
+{/* FEED */}
 
 
 <div className="md:col-span-2">
@@ -530,12 +479,6 @@ Creator Level
 
 
 
-
-
-
-
-
-{/* CREATE POST */}
 
 
 
@@ -547,8 +490,6 @@ Creator Level
 Create Post
 
 </h2>
-
-
 
 
 
@@ -564,14 +505,13 @@ onChange={(e)=>setContent(e.target.value)}
 placeholder="What's happening?"
 
 
-className="w-full border rounded-xl p-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+className="w-full border rounded-xl p-4 focus:ring-2 focus:ring-blue-400"
 
 
 rows="4"
 
 
 />
-
 
 
 
@@ -595,23 +535,17 @@ rows="4"
 
 
 
-
 <button
-
 
 onClick={createPost}
 
-
-className="bg-blue-600 text-white px-6 py-2 rounded-full flex gap-2 items-center hover:bg-blue-700"
-
+className="bg-blue-600 text-white px-6 py-2 rounded-full flex items-center gap-2"
 
 >
-
 
 <FaPaperPlane/>
 
 Post
-
 
 </button>
 
@@ -632,66 +566,19 @@ Post
 
 
 
-
-
-
-{/* POSTS */}
-
-
-
-
 {
 
-posts.length===0 &&
-
-
-<div className="bg-white p-10 rounded-xl text-center shadow">
-
-
-<h2 className="text-xl font-bold">
-
-No Posts Yet
-
-</h2>
-
-
-<p className="text-gray-500">
-
-Create the first post 🚀
-
-</p>
-
-
-</div>
-
-
-}
-
-
-
-
-
-
-
-{
-
-posts.map((post)=>(
-
+posts.map(post=>(
 
 
 <div
 
-
 key={post._id}
-
 
 className="bg-white rounded-xl shadow p-5 mb-6"
 
 
-
 >
-
-
 
 
 
@@ -708,19 +595,18 @@ className="bg-white rounded-xl shadow p-5 mb-6"
 
 
 
+
 <div>
 
 
 <h3 className="font-bold">
 
-
 {post.user?.username}
-
 
 </h3>
 
 
-<p className="text-sm text-gray-400">
+<p className="text-gray-400 text-sm">
 
 Just now
 
@@ -736,14 +622,9 @@ Just now
 
 
 
-
-
-
-<p className="mt-5 text-lg text-gray-700">
-
+<p className="mt-5 text-lg">
 
 {post.content}
-
 
 </p>
 
@@ -751,9 +632,7 @@ Just now
 
 
 
-
 <hr className="my-4"/>
-
 
 
 
@@ -765,21 +644,15 @@ Just now
 
 <button
 
-
 onClick={()=>likePost(post._id)}
-
 
 className="flex gap-2 items-center hover:text-red-500"
 
-
 >
-
 
 <FaHeart/>
 
-
 {post.likes.length}
-
 
 </button>
 
@@ -787,24 +660,17 @@ className="flex gap-2 items-center hover:text-red-500"
 
 
 
-
 <button
-
 
 onClick={()=>loadComments(post._id)}
 
-
 className="flex gap-2 items-center hover:text-blue-500"
-
 
 >
 
-
 <FaComment/>
 
-
 Comment
-
 
 </button>
 
@@ -812,21 +678,12 @@ Comment
 
 
 
-
-<button
-
-
-className="flex gap-2 items-center hover:text-green-500"
-
-
->
+<button className="flex gap-2 items-center hover:text-green-500">
 
 
 <FaShare/>
 
-
 Share
-
 
 </button>
 
@@ -840,15 +697,7 @@ Share
 
 
 
-
-
-<hr className="my-4"/>
-
-
-
-
-
-<h3 className="font-bold mb-3">
+<h3 className="font-bold mt-5 mb-3">
 
 Comments
 
@@ -859,39 +708,31 @@ Comments
 
 
 
+
 {
 
-comments[post._id]?.map((comment)=>(
-
+comments[post._id]?.map(comment=>(
 
 
 <div
 
-
 key={comment._id}
 
-
 className="bg-gray-100 rounded-lg p-3 mb-2"
-
-
 
 >
 
 
 <p className="font-semibold">
 
-
 {comment.user.username}
-
 
 </p>
 
 
 <p>
 
-
 {comment.text}
-
 
 </p>
 
@@ -900,13 +741,10 @@ className="bg-gray-100 rounded-lg p-3 mb-2"
 </div>
 
 
-
 ))
 
 
 }
-
-
 
 
 
@@ -919,55 +757,40 @@ className="bg-gray-100 rounded-lg p-3 mb-2"
 <input
 
 
-placeholder="Write a comment..."
-
-
 value={commentText[post._id] || ""}
 
 
 onChange={(e)=>
 
-
 setCommentText({
-
 
 ...commentText,
 
-
 [post._id]:e.target.value
 
-
 })
-
 
 }
 
 
+placeholder="Write a comment..."
 
 className="flex-1 border rounded-lg p-2"
-
 
 
 />
 
 
 
-
-
 <button
-
 
 onClick={()=>addComment(post._id)}
 
-
 className="bg-blue-600 text-white px-4 rounded-lg"
-
 
 >
 
-
 <FaPaperPlane/>
-
 
 </button>
 
@@ -980,9 +803,7 @@ className="bg-blue-600 text-white px-4 rounded-lg"
 
 
 
-
 </div>
-
 
 
 ))
@@ -992,13 +813,7 @@ className="bg-blue-600 text-white px-4 rounded-lg"
 
 
 
-
-
-
 </div>
-
-
-
 
 
 
@@ -1011,27 +826,19 @@ className="bg-blue-600 text-white px-4 rounded-lg"
 {/* TRENDING */}
 
 
-
-
 <div className="bg-white rounded-xl shadow p-5 h-fit">
 
 
-<h2 className="font-bold text-xl mb-5 flex gap-2 items-center">
+<h2 className="font-bold text-xl flex gap-2 items-center mb-5">
 
 
 <FaFire className="text-red-500"/>
-
 
 Trending
 
 
 </h2>
 
-
-
-
-
-<div className="space-y-4">
 
 
 <p>#webdevelopment</p>
@@ -1043,13 +850,7 @@ Trending
 <p>#MongoDB</p>
 
 
-
 </div>
-
-
-</div>
-
-
 
 
 
